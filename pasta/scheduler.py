@@ -236,7 +236,9 @@ class LightJobForProcess():
                 for item in self._invocation:
                     command = command + " " + item
 
-                # MESSENGER.send_info("[JMAbuin] Final command " + command)
+                #number_of_cpus = os.environ["OMP_NUM_THREADS"]
+
+                #MESSENGER.send_info("[JMAbuin] Final command " + command + "with " + number_of_cpus + " CPUS")
 
             startTime = time.time()
 
@@ -250,6 +252,17 @@ class LightJobForProcess():
             # self.return_code = process.returncode
 
             MESSENGER.send_info("[JMAbuin] :: run :: return code from " + self._invocation[0] + " is: " + str(self.return_code) + " and execution time is: " + str(endTime - startTime) + " seconds.")
+
+            if "fasttreeMP" in self._invocation[0]:
+                MESSENGER.send_info("[JMAbuin] running fastree in parallel")
+
+                command = ""
+                for item in self._invocation:
+                    command = command + " " + item
+
+                number_of_cpus = os.environ["OMP_NUM_THREADS"]
+
+                MESSENGER.send_info("[JMAbuin] Final command " + command + " with " + number_of_cpus+" CPUS")
 
             _stdout_fo.close()
             _stderr_fo.close()
